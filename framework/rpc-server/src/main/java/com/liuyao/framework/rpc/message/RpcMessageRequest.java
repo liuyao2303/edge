@@ -10,6 +10,10 @@ public class RpcMessageRequest {
 
     private RpcMessage rpcMessage; //rpc消息信息
 
+    public RpcMessageRequest(ChannelHandlerContext ctx, RpcMessage rpcMessage) {
+        this.ctx = ctx;
+        this.rpcMessage = rpcMessage;
+    }
 
     public ChannelHandlerContext getCtx() {
         return ctx;

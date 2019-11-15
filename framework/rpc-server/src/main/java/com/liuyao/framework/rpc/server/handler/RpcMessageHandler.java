@@ -1,5 +1,6 @@
 package com.liuyao.framework.rpc.server.handler;
 
+import com.liuyao.framework.rpc.message.RpcMessageRequest;
 import com.liuyao.framework.rpc.server.message.RpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,8 +11,8 @@ public class RpcMessageHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof RpcMessage) {
-            //Handler message here
-            System.out.println(msg);
+            RpcMessage rpcMessage = (RpcMessage) msg;
+            RpcMessageRequest request = new RpcMessageRequest(ctx, rpcMessage);
 
         } else if (msg instanceof ByteBuf) {
             //如果是bb， 则释放资源
