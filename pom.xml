@@ -10,8 +10,14 @@
     <version>1.0.0</version>
     <modules>
         <module>parents</module>
+        <module>apps/data-income-app</module>
+        <module>apps/host-manager</module>
         <module>cloud-register/cloud-register-center</module>
+        <module>data-center/data-broker</module>
+        <module>modules/app-data-model</module>
+        <module>modules/appn-grpc-model</module>
+        <module>nginx</module>
+        <module>framework</module>
     </modules>
-
 
 </project>
