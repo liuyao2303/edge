@@ -1,5 +1,6 @@
 package com.liuyao.framework.rpc.server.handler;
 
+import com.liuyao.framework.rpc.message.MessagePooledTask;
 import com.liuyao.framework.rpc.message.RpcMessageRequest;
 import com.liuyao.framework.rpc.server.message.RpcMessage;
 import io.netty.buffer.ByteBuf;
@@ -13,7 +14,7 @@ public class RpcMessageHandler extends ChannelInboundHandlerAdapter {
         if (msg instanceof RpcMessage) {
             RpcMessage rpcMessage = (RpcMessage) msg;
             RpcMessageRequest request = new RpcMessageRequest(ctx, rpcMessage);
-
+            MessagePooledTask.getInstance().offer(request);
         } else if (msg instanceof ByteBuf) {
             //如果是bb， 则释放资源
             ByteBuf bb = (ByteBuf) msg;

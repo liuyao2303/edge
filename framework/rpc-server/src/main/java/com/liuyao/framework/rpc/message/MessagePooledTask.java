@@ -3,27 +3,27 @@ package com.liuyao.framework.rpc.message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Queue;
 import java.util.concurrent.*;
 
-public class MessagePooledTask {
+public class MessagePooledTask implements Runnable {
+
+    private static final MessagePooledTask INSTANCE = new MessagePooledTask();
 
     private static final Logger LOG = LoggerFactory.getLogger(MessagePooledTask.class);
     private final BlockingDeque<RpcMessageRequest> msgQueue = new LinkedBlockingDeque<>();
+    private boolean isStart = false;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(20, new ThreadFactory() {
-        @Override
-        public Thread newThread(Runnable r) {
-            return new Thread("MessagePooledTask");
-        }
-    });
 
-    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, new ThreadFactory() {
-        @Override
-        public Thread newThread(Runnable r) {
-            return new Thread("MessagePooledTask -- pooled Thread");
+    private final static ExecutorService executor = Executors.newFixedThreadPool(20);
+
+    public static MessagePooledTask getInstance() {
+        if (!INSTANCE.isStart) {
+            INSTANCE.start();
         }
-    });
+        return INSTANCE;
+    }
+
+    private ExecutorService pollThreadPool = Executors.newFixedThreadPool(1);
 
     /**
      * 添加新的消息
@@ -43,26 +43,24 @@ public class MessagePooledTask {
         return msgQueue.size();
     }
 
-    public void start() {
-        ScheduledExecutorService scheduledExecutorService
+    private void start() {
+        pollThreadPool.submit(this);
+        isStart = true;
     }
 
     public void stop() {
 
     }
 
-    public class MessagePoolTask implements Runnable {
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    RpcMessageRequest request = msgQueue.take();
-                    MessageDecoderTask task = new MessageDecoderTask(request);
-                    Future future = executor.submit(task);
-                } catch (InterruptedException e) {
-                    LOG.error("occur in Message poll", e);
-                }
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                RpcMessageRequest request = msgQueue.take();
+                MessageDecoderTask task = new MessageDecoderTask(request);
+                Future future = executor.submit(task);
+            } catch (InterruptedException e) {
+                LOG.error("occur in Message poll", e);
             }
         }
     }
