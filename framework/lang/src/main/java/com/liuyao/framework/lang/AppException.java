@@ -1,4 +1,14 @@
 package com.liuyao.framework.lang;
 
-public class AppException {
+public class AppException extends RuntimeException {
+    public AppException() {
+    }
+
+    public AppException(String message) {
+        super(message);
+    }
+
+    public AppException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
