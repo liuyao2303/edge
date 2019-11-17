@@ -8,27 +8,24 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JsonDeserializer implements ObjectDeserialier<String> {
+import java.io.IOException;
+
+public class JsonDeserializer implements ObjectDeserialier {
 
     private static final Logger LOG = LoggerFactory.getLogger(JsonDeserializer.class);
     private ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public <A> A deserialize(String classType, String raw) throws SerializableException {
-        if (StringUtils.isEmpty(classType)) {
-            throw new SerializableException("classType null");
-        }
-
+    public <A> A deserialize(Class<A> classType, byte[] raw) throws SerializableException {
         try {
-            Class cls = Thread.currentThread().getContextClassLoader().loadClass(classType);
-            return (A) objectMapper.readValue(String.valueOf(raw), cls);
-        } catch (ClassNotFoundException e) {
-            LOG.error("class not found for {}", classType);
-            throw new SerializableException(e);
+            return objectMapper.readValue(raw, classType);
         } catch (JsonMappingException e) {
             LOG.error("JsonMappingException for", e);
             throw new SerializableException(e);
         } catch (JsonProcessingException e) {
+            LOG.error("class not found for ", e);
+            throw new SerializableException(e);
+        } catch (IOException e) {
             LOG.error("class not found for ", e);
             throw new SerializableException(e);
         }

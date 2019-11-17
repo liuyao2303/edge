@@ -14,7 +14,7 @@ public class MethodCallTest {
 
 
     @Test
-    public void testMethod() throws ExecutionException {
+    public void testMethod() throws ExecutionException, ClassNotFoundException {
         Dog dog = new Dog() {
             @Override
             public int earn(int pay) {
@@ -26,6 +26,8 @@ public class MethodCallTest {
         serviceRegister.registerService(Animinal.class, dog);
 
         Object[] args = new Object[]{12};
+
+        System.out.println(serviceRegister.isServicePresent(Class.forName(Animinal.class.getName())));
 
         Optional re = serviceRegister.getServiceMeta(Animinal.class).invoke("earn", args);
         if (re.isPresent()) {

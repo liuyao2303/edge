@@ -8,7 +8,12 @@ import java.util.Map;
 
 public class ServiceRegisterImpl implements ServiceRegister {
 
+    private static final ServiceRegister INSTANCE = new ServiceRegisterImpl();
     private final Map<Class, ServiceInfMeta> serviceMap = Maps.newConcurrentMap();
+
+    public static ServiceRegister getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public <T> void registerService(Class<T> serviceClass, T serviceImpl) {

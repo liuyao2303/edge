@@ -16,6 +16,7 @@
         <module>rpc-server</module>
         <module>lang</module>
         <module>service-manager</module>
+        <module>rpc-client</module>
     </modules>
 
     <dependencyManagement>

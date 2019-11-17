@@ -9,20 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.liuyao</groupId>
-    <artifactId>rpc-server</artifactId>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <groupId>com.liuyao.framework</groupId>
+    <artifactId>rpc-client</artifactId>
 
     <dependencies>
         <dependency>
@@ -79,5 +67,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

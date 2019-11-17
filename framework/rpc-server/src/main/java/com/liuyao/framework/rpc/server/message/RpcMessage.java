@@ -1,7 +1,5 @@
 package com.liuyao.framework.rpc.server.message;
 
-import java.util.Arrays;
-
 public class RpcMessage {
     private long header;
 
