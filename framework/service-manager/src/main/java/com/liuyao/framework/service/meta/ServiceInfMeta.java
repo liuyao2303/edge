@@ -39,6 +39,14 @@ public class ServiceInfMeta {
         }
 
         public ServiceInfMeta builder() {
+
+            try {
+                meta.serverInfCls.cast(meta.serviceImpl);
+            } catch (ClassCastException e) {
+                throw new AppException(String.format("Failed register RpcService for %s and instance type %s",
+                        meta.serverInfCls, meta.serviceImpl.getClass()));
+            }
+
             Map<String, MethodMeta> methodMetaMap = Maps.newConcurrentMap();
             Class cls = meta.serverInfCls;
             LOG.info("builder rpc meta for {}", meta.serverInfCls.getName());

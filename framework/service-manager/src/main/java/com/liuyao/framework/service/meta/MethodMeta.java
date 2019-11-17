@@ -19,7 +19,6 @@ public class MethodMeta {
     private int inCount;
 
     //保存的入参的名称, 默认从0， 开始
-    private String[] paramNames;
     private Class[] paramTypes;
 
     public static class Builder {
@@ -36,10 +35,8 @@ public class MethodMeta {
             methodMeta.method = method;
 
             Class[] parameterTypes = method.getParameterTypes();
-            methodMeta.paramNames = new String[parameterTypes.length];
             methodMeta.paramTypes = new Class[parameterTypes.length];
             for (int i = 0; i < parameterTypes.length; i++) {
-                methodMeta.paramNames[i] = parameterTypes[i].getName();
                 methodMeta.paramTypes[i] = parameterTypes[i];
             }
             return methodMeta;
@@ -108,7 +105,7 @@ public class MethodMeta {
     /**
      * 检查参数列表是否能够满足
      * @param args 参数列表
-     * @throws ExecutionException
+     * @throws ExecutionException ExecutionException
      */
     private void check(Object[] args) throws ExecutionException {
         if (args == null || args.length <= 0 || args.length != paramTypes.length) {
