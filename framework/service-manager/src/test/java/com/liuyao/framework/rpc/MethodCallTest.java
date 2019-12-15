@@ -15,12 +15,7 @@ public class MethodCallTest {
 
     @Test
     public void testMethod() throws ExecutionException, ClassNotFoundException {
-        Dog dog = new Dog() {
-            @Override
-            public int earn(int pay) {
-                return 123;
-            }
-        };
+        Dog dog = new Dog();
 
         ServiceRegister serviceRegister = new ServiceRegisterImpl();
         serviceRegister.registerService(Animinal.class, dog);

@@ -17,6 +17,7 @@
         <module>lang</module>
         <module>service-manager</module>
         <module>rpc-client</module>
+        <module>rpc-common</module>
     </modules>
 
     <dependencyManagement>
@@ -72,6 +73,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>27.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>3.3.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

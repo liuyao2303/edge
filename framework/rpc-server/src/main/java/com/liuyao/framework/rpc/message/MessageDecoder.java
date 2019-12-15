@@ -2,11 +2,13 @@ package com.liuyao.framework.rpc.message;
 
 import com.liuyao.framework.lang.RpcException;
 import com.liuyao.framework.lang.SerializableException;
-import com.liuyao.framework.rpc.deserialize.DeserializerFactory;
-import com.liuyao.framework.rpc.deserialize.JsonRpcReqFrame;
-import com.liuyao.framework.rpc.deserialize.ObjectDeserialier;
-import com.liuyao.framework.rpc.deserialize.RpcRequestMeta;
-import com.liuyao.framework.rpc.server.message.RpcMessage;
+import org.liuyao.framework.rpc.deserialize.RpcRequestInstace;
+import org.liuyao.framework.rpc.req.RpcMessageRequest;
+import org.liuyao.framework.rpc.deserialize.DeserializerFactory;
+import org.liuyao.framework.rpc.deserialize.ObjectDeserialier;
+import org.liuyao.framework.rpc.deserialize.RpcRequestMeta;
+import org.liuyao.framework.rpc.req.RpcMessage;
+import org.liuyao.framework.rpc.type.RpcType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,22 +32,20 @@ public class MessageDecoder {
 
         int rpcType = message.getRpcType();
         byte[] msgData = message.getData();
-        String messageId = "23324534534";
+        String messageId = request.getMessageId();
 
         ObjectDeserialier deserialier = DeserializerFactory.getObjectDeserializer(RpcType.from(rpcType));
         if (deserialier == null) {
             throw new RpcException("Rpc failed: failed to load Deserializer");
         }
         try {
-            JsonRpcReqFrame frame = deserialier.deserialize(JsonRpcReqFrame.class, msgData);
-            RpcRequestMeta rpcRequestMeta = RpcRequestMeta.builder().setMessageId(messageId)
+            RpcRequestInstace frame = (RpcRequestInstace) deserialier.deserialize(msgData);
+            return RpcRequestMeta.builder().setMessageId(messageId)
                     .setMethodName(frame.getMethod())
                     .setReturnClassName(frame.getReturnClass())
                     .setServiceClassName(frame.getServiceName())
                     .setParamsInOrder(frame.getParamsInOrder())
                     .build();
-            rpcRequestMeta.check();
-            return rpcRequestMeta;
         } catch (SerializableException e) {
             LOG.error("Rpc failed: failed to decode message for {}", messageId);
             throw new RpcException("Rpc failed: failed to Deserializer");

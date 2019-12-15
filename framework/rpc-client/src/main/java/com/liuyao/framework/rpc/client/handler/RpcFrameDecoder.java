@@ -1,9 +1,9 @@
-package com.liuyao.framework.rpc.server.handler;
+package com.liuyao.framework.rpc.client.handler;
 
-import org.liuyao.framework.rpc.req.RpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import org.liuyao.framework.rpc.req.RpcMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +45,7 @@ public class RpcFrameDecoder extends ByteToMessageDecoder {
         //获取报文的长度
         int length = in.readInt();
 
+
         //10个字段长度的messageId
         byte[] messgeId = new byte[10];
         in.readBytes(messgeId, 0, 10);
@@ -57,11 +58,11 @@ public class RpcFrameDecoder extends ByteToMessageDecoder {
         }
 
         RpcMessage rpcMessage = new RpcMessage();
+        rpcMessage.setMessageId(new String(messgeId));
         rpcMessage.setData(readData(in, length));
         rpcMessage.setHeader(headerInt);
         rpcMessage.setRpcType(1);
         rpcMessage.setLength(length);
-        rpcMessage.setMessageId(new String(messgeId));
         out.add(rpcMessage);
     }
 

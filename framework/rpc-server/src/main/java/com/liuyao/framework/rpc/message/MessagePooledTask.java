@@ -1,5 +1,7 @@
 package com.liuyao.framework.rpc.message;
 
+import com.liuyao.framework.rpc.caller.MessageDecoderTask;
+import org.liuyao.framework.rpc.req.RpcMessageRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +12,7 @@ public class MessagePooledTask implements Runnable {
     private static final MessagePooledTask INSTANCE = new MessagePooledTask();
 
     private static final Logger LOG = LoggerFactory.getLogger(MessagePooledTask.class);
-    private final BlockingDeque<RpcMessageRequest> msgQueue = new LinkedBlockingDeque<>();
+    private final BlockingDeque<RpcMessageRequest> msgQueue = new LinkedBlockingDeque<RpcMessageRequest>();
     private boolean isStart = false;
 
 

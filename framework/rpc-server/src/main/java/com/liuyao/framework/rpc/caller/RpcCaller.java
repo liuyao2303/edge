@@ -2,7 +2,7 @@ package com.liuyao.framework.rpc.caller;
 
 import com.liuyao.framework.lang.ExecutionException;
 import com.liuyao.framework.lang.RpcException;
-import com.liuyao.framework.rpc.deserialize.RpcRequestMeta;
+import org.liuyao.framework.rpc.deserialize.RpcRequestMeta;
 import com.liuyao.framework.service.meta.ServiceInfMeta;
 import com.liuyao.framework.service.reg.ServiceRegister;
 import com.liuyao.framework.service.reg.ServiceRegisterImpl;

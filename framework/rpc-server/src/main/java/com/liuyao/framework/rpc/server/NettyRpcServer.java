@@ -1,12 +1,11 @@
 package com.liuyao.framework.rpc.server;
 
+import com.liuyao.framework.rpc.server.handler.ChannelExceptionHandler;
 import com.liuyao.framework.rpc.server.handler.RpcFrameDecoder;
+import com.liuyao.framework.rpc.server.handler.RpcFrameEncoder;
 import com.liuyao.framework.rpc.server.handler.RpcMessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelInitializer;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -50,13 +49,16 @@ public class NettyRpcServer {
         try {
             serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(selectLoopGroup, workerEventLoop)
+                    .option(ChannelOption.SO_KEEPALIVE, true)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(address, port)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             socketChannel.pipeline().addLast(new RpcFrameDecoder());
+                            socketChannel.pipeline().addLast(new RpcFrameEncoder());
                             socketChannel.pipeline().addLast(new RpcMessageHandler());
+                            socketChannel.pipeline().addLast(new ChannelExceptionHandler());
                         }
                     });
             ChannelFuture closeFuture = serverBootstrap.bind().sync();
