@@ -1,12 +1,12 @@
 package com.liuyao.framework.rpc.client;
 
-import com.liuyao.framework.lang.RpcException;
-import com.liuyao.framework.rpc.client.channel.NettyChannelClient;
-import com.liuyao.framework.rpc.client.proxy.ServiceProxy;
-import com.liuyao.framework.service.api.Animinal;
+        import com.liuyao.framework.lang.RpcException;
+        import com.liuyao.framework.rpc.client.channel.NettyChannelClient;
+        import com.liuyao.framework.rpc.client.proxy.ServiceProxy;
+        import com.liuyao.framework.service.api.Animinal;
 
-import java.util.Date;
-import java.util.Map;
+        import java.util.Date;
+        import java.util.Map;
 
 public class Test {
     public static void main(String[] args) throws RpcException {
